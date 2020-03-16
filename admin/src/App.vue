@@ -4,3 +4,9 @@
   </div>
 </template>
 
+<style scoped>
+  html body{
+    margin: 0px,
+  }
+</style>
+
