@@ -13,3 +13,9 @@ firewall-cmd --reload   # 配置立即生效
 
 2、查看防火墙所有开放的端口
 firewall-cmd --zone=public --list-ports
+
+### 使用inflection
+使用inflection组件库解决类名复数的转换
+```
+npm i inflection
+```
