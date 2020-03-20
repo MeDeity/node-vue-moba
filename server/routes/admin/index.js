@@ -22,7 +22,7 @@ module.exports = app =>{
 
     //获取分类列表
     router.get('/categories',async (req,res)=>{
-        const items = await Category.find().limit(10);
+        const items = await Category.find().populate('parent').limit(10);
         res.send(items)
     });
 
