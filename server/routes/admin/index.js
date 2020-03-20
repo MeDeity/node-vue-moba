@@ -9,7 +9,14 @@ module.exports = app =>{
     });
 
     router.put('/categories/:id',async (req,res)=>{
-        const model = await Category.findByIdAndUpdate(req.params.id,req.body);
+        await Category.findByIdAndUpdate(req.params.id,req.body);
+        res.send({
+            success:true
+        })
+    });
+
+    router.delete('/categories/:id',async (req,res)=>{
+        const model = await Category.findByIdAndDelete(req.params.id,req.body);
         res.send(model)
     });
 
