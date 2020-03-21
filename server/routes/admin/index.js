@@ -25,12 +25,13 @@ module.exports = app =>{
     //获取分类列表
     router.get('/',async (req,res)=>{
         let queryOptions = {};
+        console.info("Model:"+JSON.stringify(req.Model));
         if(req.Model.modelName === 'Category'){
             queryOptions.populate = 'parent';
         }
-        const items = await req.Model.find().setOptions({
+        const items = await req.Model.find().setOptions(
             queryOptions
-        }).limit(10);
+        ).limit(10);
         res.send(items)
     });
 
