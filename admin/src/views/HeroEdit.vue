@@ -2,10 +2,23 @@
   <div class="about">
       <h1>{{id ? '编辑':'新建'}}英雄</h1>
       <el-form lable-width='120px' @submit.native.prevent="save">
+        <el-form-item label="称号">
+            <el-input v-model="model.title"></el-input>
+        </el-form-item>
         <el-form-item label="名称">
             <el-input v-model="model.name"></el-input>
         </el-form-item>
-        
+        <el-form-item label="类型">
+            <el-select v-model="model.categories" multiple >
+                <el-option
+                    v-for="item of categories"
+                    :label = "item.name"
+                    :value = "item._id"
+                    :key = "item._id"
+                ></el-option>
+            </el-select>
+        </el-form-item>
+
         <el-upload
             class="avatar-uploader"
             :action="$http.defaults.baseURL+'/upload'"
@@ -29,6 +42,7 @@ export default {
     },
     data(){
         return {
+            categories:[],
             model:{},
         }
     },
@@ -53,9 +67,14 @@ export default {
         async fetch(){
             const res = await this.$http.get(`rest/heros/${this.id}`)
             this.model = res.data;
+        },
+        async fetchCategories(){
+            const res = await this.$http.get(`rest/categories`)
+            this.categories = res.data;
         }
     },
     created(){
+        this.fetchCategories();
         this.id&&this.fetch()
     }
 }

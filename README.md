@@ -1,7 +1,17 @@
 #### TODO 
-nodemon 是什么,有什么作用
+1. nodemon 是什么,有什么作用
 
-
+2.el-select v-model 要另外写,要不然选择后无法绑定到选择框上
+```
+<el-select v-model="model.categories">
+    <el-option
+        v-for="item of categories"
+        :label = "item.name"
+        :value = "item._id"
+        :key = "item._id"
+    ></el-option>
+</el-select>
+```
 
 #关于mongodb的使用(阿里云)
 阿里云需要开放安全组及开放端口
