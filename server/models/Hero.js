@@ -18,7 +18,7 @@ const schema = new mongoos.Schema({
         tips:{type:String},
     }],
     items1:[{type:mongoos.SchemaTypes.ObjectId,ref:'Item'}],//顺风出装
-    items1:[{type:mongoos.SchemaTypes.ObjectId,ref:'Item'}],//逆风出装
+    items2:[{type:mongoos.SchemaTypes.ObjectId,ref:'Item'}],//逆风出装
     usageTips:{type:String},//使用技巧
     battleTips:{type:String},//对战技巧
     teamTips:{type:String},//团战技巧

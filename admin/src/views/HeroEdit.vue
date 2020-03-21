@@ -2,6 +2,14 @@
   <div class="about">
       <h1>{{id ? '编辑':'新建'}}英雄</h1>
       <el-form lable-width='120px' @submit.native.prevent="save">
+        <el-upload
+            class="avatar-uploader"
+            :action="$http.defaults.baseURL+'/upload'"
+            :show-file-list="false"
+            :on-success="afterUpload">
+                <img v-if="model.avatar" :src="model.avatar" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
         <el-form-item label="称号">
             <el-input v-model="model.title"></el-input>
         </el-form-item>
@@ -18,15 +26,42 @@
                 ></el-option>
             </el-select>
         </el-form-item>
+        <el-form-item label="难度">
+            <el-rate style="margin-top:0.6rem" :max="9" show-score v-model="model.scores.difficult"></el-rate>
+        </el-form-item>
+        <el-form-item label="技能">
+            <el-rate style="margin-top:0.6rem" :max="9" show-score v-model="model.scores.skills"></el-rate>
+        </el-form-item>
+        <el-form-item label="攻击">
+            <el-rate style="margin-top:0.6rem" :max="9" show-score v-model="model.scores.attack"></el-rate>
+        </el-form-item>
+        <el-form-item label="生存">
+            <el-rate style="margin-top:0.6rem" :max="9" show-score v-model="model.scores.survive"></el-rate>
+        </el-form-item>
+        
+        <el-form-item label="顺风出装">
+            <el-select v-model="model.items1" multiple >
+                <el-option
+                    v-for="item of items"
+                    :label = "item.name"
+                    :value = "item._id"
+                    :key = "item._id"
+                ></el-option>
+            </el-select>
+        </el-form-item>
 
-        <el-upload
-            class="avatar-uploader"
-            :action="$http.defaults.baseURL+'/upload'"
-            :show-file-list="false"
-            :on-success="afterUpload">
-                <img v-if="model.avatar" :src="model.avatar" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <el-form-item label="逆风出装">
+            <el-select v-model="model.items2" multiple >
+                <el-option
+                    v-for="item of items"
+                    :label = "item.name"
+                    :value = "item._id"
+                    :key = "item._id"
+                ></el-option>
+            </el-select>
+        </el-form-item>
+
+        
 
         <el-form-item>
             <el-button type="primary" native-type="submit">保存</el-button>
@@ -43,7 +78,14 @@ export default {
     data(){
         return {
             categories:[],
-            model:{},
+            items:[],
+            model:{
+                name:'',
+                avatar:'',
+                scores:{
+                    diffcult:8
+                },
+            },
         }
     },
     methods:{
@@ -66,15 +108,23 @@ export default {
         },
         async fetch(){
             const res = await this.$http.get(`rest/heros/${this.id}`)
-            this.model = res.data;
+            // this.model = res.data;
+            //为什么要修改成以下情况
+            //model 在获取到新的数据时，会导致部分三阶属性 报空指针问题
+            this.model = Object.assign({},this.model,res.data);
         },
         async fetchCategories(){
             const res = await this.$http.get(`rest/categories`)
             this.categories = res.data;
+        },
+        async fetchItems(){
+            const res = await this.$http.get(`rest/items`)
+            this.items = Object.assign({},res.data);
         }
     },
     created(){
         this.fetchCategories();
+        this.fetchItems()
         this.id&&this.fetch()
     }
 }
