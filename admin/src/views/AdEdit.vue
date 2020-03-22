@@ -6,6 +6,31 @@
             <el-input v-model="model.name"></el-input>
         </el-form-item>
         
+        <el-form-item label="广告">
+            <el-button type="text" @click="model.items.push({})"><i class="el-icon-plus"></i> 添加广告</el-button>
+            <el-row type="flex" style="flex-wrap:wrap">
+                <el-col style="padding:5rem" :md="20" v-for="(item,index) in model.items" :key="index">
+                    <el-form-item label="跳转连接(URL)">
+                        <el-input v-model="item.url"></el-input>
+                    </el-form-item>
+                    <el-form-item label="图标" style="margin-top:1.5rem">
+                        <el-upload
+                            class="avatar-uploader"
+                            :action="$http.defaults.baseURL+'/upload'"
+                            :show-file-list="false"
+                            :on-success="res=>$set(item,'image',res.url)">
+                                <img v-if="item.image" :src="item.image" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button size="small" type="danger" 
+                        @click="model.items.splice(index,1)">删除</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" native-type="submit">保存</el-button>
         </el-form-item>
@@ -20,7 +45,9 @@ export default {
     },
     data(){
         return {
-            model:{},
+            model:{
+                items:[],
+            },
             parents:[]
         }
     },
@@ -40,7 +67,7 @@ export default {
         },
         async fetch(){
             const res = await this.$http.get(`rest/ads/${this.id}`)
-            this.model = res.data;
+            this.model = Object.assign({},this.model,res.data);
         },
         
     },
