@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Login from '../views/Login.vue'
+
 import Main from '../views/Main.vue'
 import CategoryEdit from '../views/CategoryEdit.vue'
 import CategoryList from '../views/CategoryList.vue'
@@ -22,6 +24,11 @@ import AdminUserList from '../views/AdminUserList.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path:'/login',
+    name:'login',
+    component:Login,
+  },
   {
     path: '/',
     name: 'Home',
