@@ -56,7 +56,7 @@ export default {
             const formData = new FormData();
             formData.append("file", file);
         
-            const result = await this.$http.post('upload',formData);
+            const result = await this.$http.post('/upload',formData);
 
             let url = result.data.url; // Get url from response
             Editor.insertEmbed(cursorLocation, "image", url);
