@@ -61,7 +61,17 @@
             </el-select>
         </el-form-item>
 
-        
+        <el-form-item label="使用技巧">
+            <el-input type="textarea" v-model="model.usageTips"></el-input>
+        </el-form-item>
+
+        <el-form-item label="对抗技巧">
+            <el-input type="textarea" v-model="model.battleTips"></el-input>
+        </el-form-item>
+
+        <el-form-item label="团战思路">
+            <el-input type="textarea" v-model="model.teamTips"></el-input>
+        </el-form-item>
 
         <el-form-item>
             <el-button type="primary" native-type="submit">保存</el-button>
