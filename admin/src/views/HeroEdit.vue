@@ -103,6 +103,11 @@
                         <el-form-item label="小提示">
                             <el-input type="textarea" v-model="item.tips"></el-input>
                         </el-form-item>
+
+                        <el-form-item>
+                            <el-button size="small" type="danger" 
+                            @click="model.skills.splice(index,1)">删除</el-button>
+                        </el-form-item>
                     </el-col>
                 </el-row>
             </el-tab-pane>
