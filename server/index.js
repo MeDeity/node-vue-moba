@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 
+app.set('secret','i234n239sdsdd934')
+
 app.use(require('cors')())
 //app.use(express.json) 曾经这样写导致 出现访问一直timeout的问题
 app.use(express.json())

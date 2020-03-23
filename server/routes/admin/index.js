@@ -55,4 +55,31 @@ module.exports = app =>{
         req.Model = require(`../../models/${modelName}`);
         next();
     },router);
+
+    app.post('/admin/api/login',async (req,res)=>{
+        const {username,password} = req.body;
+        //根據用戶名找用戶,校驗密碼，返回token
+        const AdminUser = require('../../models/AdminUser');
+        const user = await AdminUser.findOne({
+            username:username
+        }).select('+password');
+        // const user = await AdminUser.findOne({//由於 username:username 可以簡寫
+        //     username
+        // })
+        if(!user){
+            return res.status(422).send({
+                message:'用戶不存在'
+            })
+        }
+        const isValid = require('bcryptjs').compareSync(password,user.password)
+        if(!isValid){
+            return res.status(403).send({
+                message:'用户名或密码错误'
+            })
+        }
+        //返回token
+        const jwt = require('jsonwebtoken')
+        const token = jwt.sign({id:user._id},app.get('secret'));
+        res.send({token})
+    });
 }
