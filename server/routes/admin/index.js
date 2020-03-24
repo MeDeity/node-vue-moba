@@ -30,6 +30,7 @@ module.exports = app =>{
     //获取分类列表
     router.get('/',async(req,res,next)=>{
         const token = String(req.headers.authorization||'').split(' ').pop();
+        assert(token,401,"未授权(请提供jwtToken)")
         const {id} = jwt.verify(token,app.get('secret'))
         req.user = await AdminUser.findById(id)
         console.log("获取到的user:"+req.user);
@@ -88,7 +89,7 @@ module.exports = app =>{
 
     //错误处理函数
     app.use(async(err,req,res,next)=>{
-        res.status(err.statusCode).send({
+        res.status(err.statusCode||500).send({
             message:err.message
         });
         // await next();// 已经没必要继续往下执行了
