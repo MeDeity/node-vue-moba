@@ -4,12 +4,16 @@ module.exports = app =>{
         mergeParams:true //重要 合并URL参数 父级 子级的参数都可以访问到
     });
     
-
+    const jwt = require('jsonwebtoken')
+    const AdminUser = require('../../models/AdminUser');
+    const assert = require('http-assert')
+    //创建资源
     router.post('/',async (req,res)=>{
         const model = await req.Model.create(req.body);
         res.send(model)
     });
 
+    //修改资源
     router.put('/:id',async (req,res)=>{
         await req.Model.findByIdAndUpdate(req.params.id,req.body);
         res.send({
@@ -17,13 +21,21 @@ module.exports = app =>{
         })
     });
 
+    //删除资源
     router.delete('/:id',async (req,res)=>{
         const model = await req.Model.findByIdAndDelete(req.params.id,req.body);
         res.send(model)
     });
 
     //获取分类列表
-    router.get('/',async (req,res)=>{
+    router.get('/',async(req,res,next)=>{
+        const token = String(req.headers.authorization||'').split(' ').pop();
+        const {id} = jwt.verify(token,app.get('secret'))
+        req.user = await AdminUser.findById(id)
+        console.log("获取到的user:"+req.user);
+        assert(req.user,401,"用户或密码不存在")
+        await next()
+    }, async (req,res)=>{
         let queryOptions = {};
         console.info("Model:"+JSON.stringify(req.Model));
         if(req.Model.modelName === 'Category'){
@@ -59,27 +71,26 @@ module.exports = app =>{
     app.post('/admin/api/login',async (req,res)=>{
         const {username,password} = req.body;
         //根據用戶名找用戶,校驗密碼，返回token
-        const AdminUser = require('../../models/AdminUser');
+        
         const user = await AdminUser.findOne({
             username:username
         }).select('+password');
-        // const user = await AdminUser.findOne({//由於 username:username 可以簡寫
-        //     username
-        // })
-        if(!user){
-            return res.status(422).send({
-                message:'用戶不存在'
-            })
-        }
+        assert(user,403,'用户名或密码错误');
         const isValid = require('bcryptjs').compareSync(password,user.password)
         if(!isValid){
-            return res.status(403).send({
-                message:'用户名或密码错误'
-            })
+            assert(user,403,'用户名或密码错误');
         }
         //返回token
-        const jwt = require('jsonwebtoken')
+        
         const token = jwt.sign({id:user._id},app.get('secret'));
         res.send({token})
+    });
+
+    //错误处理函数
+    app.use(async(err,req,res,next)=>{
+        res.status(err.statusCode).send({
+            message:err.message
+        });
+        // await next();// 已经没必要继续往下执行了
     });
 }
