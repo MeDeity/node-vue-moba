@@ -89,6 +89,7 @@ module.exports = app =>{
 
     //错误处理函数
     app.use(async(err,req,res,next)=>{
+        console.info("错误处理函数"+JSON.stringify(err));
         res.status(err.statusCode||500).send({
             message:err.message
         });
