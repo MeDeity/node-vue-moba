@@ -30,7 +30,7 @@ module.exports = app =>{
     //获取分类列表
     router.get('/',async(req,res,next)=>{
         const token = String(req.headers.authorization||'').split(' ').pop();
-        assert(token,401,"未授权(请提供jwtToken)")
+        assert(token,401,"用户或密码不存在")//未授权(请提供jwtToken)
         const {id} = jwt.verify(token,app.get('secret'))
         req.user = await AdminUser.findById(id)
         console.log("获取到的user:"+req.user);
