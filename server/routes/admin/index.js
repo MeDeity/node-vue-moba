@@ -7,6 +7,11 @@ module.exports = app =>{
     const jwt = require('jsonwebtoken')
     const AdminUser = require('../../models/AdminUser');
     const assert = require('http-assert')
+    
+    //登录校验中间件
+    const authMiddleware = require('../../middleware/auth')
+
+    const resourceMiddleware = require('../../middleware/resource')
     //创建资源
     router.post('/',async (req,res)=>{
         const model = await req.Model.create(req.body);
@@ -28,15 +33,7 @@ module.exports = app =>{
     });
 
     //获取分类列表
-    router.get('/',async(req,res,next)=>{
-        const token = String(req.headers.authorization||'').split(' ').pop();
-        assert(token,401,"用户或密码不存在")//未授权(请提供jwtToken)
-        const {id} = jwt.verify(token,app.get('secret'))
-        req.user = await AdminUser.findById(id)
-        console.log("获取到的user:"+req.user);
-        assert(req.user,401,"用户或密码不存在")
-        await next()
-    }, async (req,res)=>{
+    router.get('/',authMiddleware(), async (req,res)=>{
         let queryOptions = {};
         console.info("Model:"+JSON.stringify(req.Model));
         if(req.Model.modelName === 'Category'){
@@ -63,11 +60,8 @@ module.exports = app =>{
         res.send(file);
     });
 
-    app.use('/admin/api/rest/:resource',async (req,res,next) =>{
-        const modelName = require('inflection').classify(req.params.resource);
-        req.Model = require(`../../models/${modelName}`);
-        next();
-    },router);
+
+    app.use('/admin/api/rest/:resource',authMiddleware(),resourceMiddleware(),router);
 
     app.post('/admin/api/login',async (req,res)=>{
         const {username,password} = req.body;

@@ -35,6 +35,7 @@
     methods:{
       async login(){
         const res = await this.$http.post('login',this.model);
+        console.info(res)
         localStorage.token = res.data.token;
         this.$router.push('/')
         this.$message({

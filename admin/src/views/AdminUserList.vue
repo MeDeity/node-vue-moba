@@ -27,7 +27,6 @@ export default {
   },
   methods:{
     async fetch(){
-       console.info("获取数据")
        const res = await this.$http.get('rest/admin_users')
        this.items = res.data;
     },
