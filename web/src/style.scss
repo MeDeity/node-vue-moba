@@ -62,3 +62,49 @@ $font-sizes: (
       font-size: $size * $base-font-size
   }
 }
+
+.d-flex {
+    display: flex;
+}
+
+$flex-jc: (
+    start: flex-start,
+    end: flex-end,
+    center: flex-center,
+    between:space-between,
+    around:space-around,
+);
+
+@each $key,$value in $flex-jc {
+    .jc-#{$key} {
+        justify-content: $value;
+    }
+}
+
+$flex-ai: (
+    start: flex-start,
+    end: flex-end,
+    center: flex-center,
+    between:space-between,
+    around:space-around,
+    stretch:stretch,
+);
+
+@each $key,$value in $flex-ai {
+    .ai-#{$key} {
+        align-items: $value;
+    }
+}
+
+.flex-colum {
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
