@@ -13,13 +13,19 @@
       <div class="swiper-pagination  pagination-home text-right px-3 pb-2" slot="pagination"></div>
     </swiper>
     <!--end of swiper-->
-    <div class="nav-icons text-center text-dark-1 bg-white mt-3 d-flex flex-wrap">
-      <div class="nav-item mb-3"
-        v-for="n in 10" :key=n>
-        <div class="sprite sprite-news"></div>
-        <div>爆料站</div>
-      </div>
+    <div class="nav-icons text-center text-dark-1 bg-white m-3 d-flex flex-wrap">
+      <!-- <div class="d-flex flex-wrap mb-3"> -->
+        <div class="nav-item mb-3"
+          v-for="n in 10" :key=n>
+          <div class="sprite sprite-news"></div>
+          <div class="py-2">爆料站</div>
+        </div>
+      <!-- </div> -->
     </div>
+    <div class="bg-light py2 fs-sm">
+        <i class="sprite sprite-arrow mr-1 "></i>
+        <span>收起</span>
+      </div>
   </div>
 </template>
 
@@ -54,6 +60,10 @@ export default {
   .nav-icons {
     .nav-item {
       width:25%;
+      border-right: 1px solid $border-color;
+      &:nth-child(4n+1) {
+        border-left:none;
+      }
     }
   }
 </style>
