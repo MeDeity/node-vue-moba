@@ -1,0 +1,58 @@
+{
+  "id": "1760793",
+  "name": "moba",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1375630",
+      "name": "hero",
+      "font_class": "hero",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "3497545",
+      "name": "hero",
+      "font_class": "shuzibisvg-",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "6365637",
+      "name": "hero",
+      "font_class": "hero1",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
+      "icon_id": "6887403",
+      "name": "Hero",
+      "font_class": "Hero",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "9453855",
+      "name": "Hero",
+      "font_class": "Hero1",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "9453856",
+      "name": "Hero",
+      "font_class": "Hero-copy",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "12940695",
+      "name": "hero",
+      "font_class": "hero2",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    }
+  ]
+}
